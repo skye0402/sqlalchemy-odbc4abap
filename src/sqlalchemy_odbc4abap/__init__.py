@@ -19,9 +19,8 @@ from .base import (
 
 import pyodbc
 
-__version__ = "0.0.1"
+__version__ = "0.0.5"
 
-pyodbc.pooling = False  # TODO: Check if required for ABAP ODBC
 _registry.register(
     "odbc4abap.pyodbc", "sqlalchemy_odbc4abap.pyodbc", "O4ADialect_pyodbc"
 )
