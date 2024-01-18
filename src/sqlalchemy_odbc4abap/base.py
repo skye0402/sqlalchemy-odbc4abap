@@ -677,7 +677,7 @@ class O4ADialect(default.DefaultDialect):
     supports_is_distinct_from = False
 
     poolclass = pool.SingletonThreadPool
-    statement_compiler = O4ADDLCompiler
+    statement_compiler = O4ACompiler
     ddl_compiler = O4ADDLCompiler
     type_compiler = O4ATypeCompiler
     preparer = O4AIdentifierPreparer

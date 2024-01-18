@@ -25,60 +25,28 @@ additional_kwargs = {
     "schema": "ZGUN01"
 }
 
-connection_string = f"{DIALECT_DBAPI}://{USERNAME}:{PASSWORD}@MYDSN"
-# Create the engine
-engine = create_engine(url=connection_string, echo=True, echo_pool=True)
-
-# Connect to the database
-with engine.connect() as connection:
-    result = connection.execute(text("SELECT * FROM SYS.VIEWS WHERE schema_name = 'SYS'"))
-    for row in result:
-        print(row)
-    connection.detach()
-connection.close()
-# You can run the test cases with 
-
-class TestProxyOpenAI(unittest.TestCase):
+class TestODBC4ABAPDialect(unittest.TestCase):
+    def setUp(self) -> None:
+        connection_string = f"{DIALECT_DBAPI}://{USERNAME}:{PASSWORD}@MYDSN"
+        self.engine = create_engine(url=connection_string, echo=True, echo_pool=True)
     
-    def connect_to_database(self):
+    def test_01_retrieve_data(self):
+        result = ""
         try:
-            # Connect to the database
-            with engine.connect() as connection:
-                result = connection.execute(text("SELECT * FROM SYS.VIEWS WHERE schema_name = 'SYS'"))
+            # Connect to the database            
+            with self.engine.connect() as connection:
+                result = connection.execute(text("SELECT * FROM SYS.DUMMY"))
                 for row in result:
-                    print(row)
+                    result = row[0]
                 connection.detach()
             connection.close()
         except Exception as e:
             print(f"Error connecting: {e}")
             self.assertTrue(False)
-
-
-        test_string = "Hello I'm an AI."
-
-        self.assertTrue(test_string in test_string)
-
-    def test_openai_llm(self):
-        try:
-            from saplangchainproxy.llm import SAPAzureOpenAI
-        except Exception as e:
-            print(f"Error importing: {e}")
-            self.assertTrue(False)
-        llm = SAPAzureOpenAI(temperature=0.0)
-        test_string = "Hello I'm an AI."
-        test_reply = llm(f"Just answer with '{test_string}'. Nothing else.")
-        self.assertTrue(test_string in test_reply)
-
-    def test_embeddings(self):
-        try:
-            from saplangchainproxy.embeddings import SAPOpenAIEmbeddings
-        except Exception as e:
-            print(f"Error importing: {e}")
-            self.assertTrue(False)
-        embeddings_model = SAPOpenAIEmbeddings(model='text-embedding-ada-002-v2')
-        embeddings = embeddings_model.embed_documents([
-            "Hi there!",
-            "Hello World!"
-        ])
-        len(embeddings), len(embeddings[0]) 
-
+        self.assertEqual(result, "X") # Dummy table contains value X in one row.
+    
+    def tearDown(self) -> None:
+        pass
+        
+if __name__ == '__main__':
+    unittest.main()

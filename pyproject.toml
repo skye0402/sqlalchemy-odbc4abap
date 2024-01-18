@@ -28,7 +28,7 @@ requires-python = ">=3.10"
 dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
 
 [project.urls]
-Homepage = "https://github.com/skye0402/saplangchain-proxy"
+Homepage = "https://github.com/skye0402/sqlalchemy-odbc4abap"
 
 [project.scripts]
 realpython = "reader.__main__:main"
