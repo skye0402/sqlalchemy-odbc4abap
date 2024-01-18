@@ -36,7 +36,7 @@ After installing and configuring the library, you can use it within your Python 
 from sqlalchemy import create_engine
 
 # Create an engine that connects to the ABAP system
-engine = create_engine('abap+pyodbc://username:password@dsn')
+engine = create_engine('odbc4abap+pyodbc://username:password@dsn')
 
 # Query the ABAP system using SQLAlchemy ORM or Core
 # ...
